@@ -1,0 +1,323 @@
+<%- include("../../views/partials/user/header") %>
+
+  
+  
+
+<main class="main">
+  <style>
+    .product-view-page {
+      font-family: 'Arial', sans-serif;
+      color: #333;
+    }
+  
+    .product-image-wrapper {
+      max-width: 100%;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    .product-details-wrapper {
+      padding-left: 30px;
+      padding-top: 20px;
+    }
+  
+    .product-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+  
+    .product-description {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #6c757d;
+    }
+  
+    .author-language {
+      font-size: 14px;
+      color: #495057;
+      margin-bottom: 15px;
+    }
+  
+    .pricing-info h3 {
+      font-size: 24px;
+    }
+  
+    .discount {
+      font-size: 16px;
+    }
+  
+    .stock-status {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  
+    .rating {
+      margin-bottom: 20px;
+    }
+  
+    .action-buttons .btn {
+      font-size: 16px;
+      padding: 12px 25px;
+      width: 150px;
+    }
+  
+    .action-buttons .btn:hover {
+      opacity: 0.9;
+    }
+  
+    .product-image-wrapper img {
+      max-height: 450px;
+      object-fit: cover;
+      display: block;
+      width: 100%;
+    }
+  
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+  
+    .btn-info {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+    }
+  
+    .text-muted {
+      color: #6c757d !important;
+    }
+  
+    .text-success {
+      color: #28a745 !important;
+    }
+  
+    .text-danger {
+      color: #dc3545 !important;
+    }
+  
+    .badge-success {
+      background-color: #28a745;
+    }
+  
+    .font-weight-bold {
+      font-weight: 700;
+    }
+    .small-image{
+        width:35px;
+        height :35px;;
+    }
+
+    .small-image-gallery  {
+    padding: 2px; /* Adjust this value to decrease spacing further */
+  }
+
+  /* Ensure small images fit perfectly in their columns */
+  .small-image-gallery .small-image {
+    width:65px;
+    height :55px;;
+    display: block;
+  }
+
+  /* Remove unnecessary margins from the row */
+  .small-image-gallery .row {
+    margin: 0;
+  }
+  .product-image-wrapper {
+    width: 100%; /* Full width of the parent container */
+    height: 400px; /* Set a fixed height */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    overflow: hidden; /* Hide any overflowing parts of the image */
+    background-color: #f8f9fa; /* Optional: Light background color */
+    border-radius: 8px; /* Optional: Rounded corners for the wrapper */
+  }
+  /* Adjust the image to fit properly within the wrapper */
+  #main-product-image {
+    width: 100%; /* Scale image to fit width */
+    height: 100%; /* Scale image to fit height */
+    object-fit: contain; /* Ensure the full image is visible without cropping */
+    border-radius: 4px; /* Optional: Smooth corners for the image */
+  }
+  .zoom-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%; /* Adjust to fit your design */
+  height: auto;
+}
+
+.zoom-container img {
+  cursor: grab;
+  transition: transform 0.3s ease-out;
+  transform-origin: center center;
+}
+
+
+  </style>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light px-3 py-2 rounded">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/">Products</a></li>
+     <!--<li class="breadcrumb-item"><a href="/category/<%= product.categoryId._id %>"><%= product.name %></a></li>--> 
+      <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
+    </ol>
+  </nav>
+
+
+
+    <div class="container mt-5 product-view-page">
+        <div class="row">
+          <!-- Left Side: Product Image -->
+          <div class="col-md-6">
+            <div class="product-image-wrapper zoom-container">
+                <img id="main-product-image" src="uploads/re-image/<%= product.coverImage[0] %>" 
+                     class="img-fluid rounded shadow-sm" 
+                     alt="<%= product.name %>">
+              </div>
+           
+
+
+
+
+
+    <!-- Small Image Gallery -->
+    <div class="small-image-gallery mt-3">
+        <div class="row">
+          <% for (let i = 1; i < product.coverImage.length; i++) { %>
+            
+              <img src="/uploads/re-image/<%= product.coverImage[i] %>" 
+                   class="img-fluid small-image" 
+                   alt="<%= product.name %> image <%= i+1 %>"
+                   onclick="changeMainImage('<%= product.coverImage[i] %>')">
+            
+          <% } %>
+        </div>
+      </div>
+    
+
+
+
+
+
+
+
+          </div>
+      
+          <!-- Right Side: Product Details -->
+          <div class="col-md-6">
+            <div class="product-details-wrapper">
+              <h1 class="product-title text-dark font-weight-bold"><%= product.name %></h1>
+              <h5>Description:</h5>
+              <p class="product-description text-muted"><%= product.description %></p>
+      
+              <!-- Author and Language -->
+              <p class="author-language">
+                <strong>Author:</strong> <%= product.author %> | 
+                <strong>Language:</strong> <%= product.language %>|
+                <strong>Category:</strong> <%= product.categoryId.name %>
+              </p>
+      
+              <!-- Price Information -->
+              <div class="pricing-info mb-3">
+                <h3 class="text-danger font-weight-bold">
+                  $<%= product.salePrice %>
+                  <small class="text-muted" style="text-decoration: line-through;">$<%= product.regularPrice %></small>
+                </h3>
+                <p class="discount text-success"><strong>Offer Discount:</strong> <%= product.discount %> %</p>
+                <p class="">(<strong>prodcut Discount:</strong> <%= product.productDiscount %> %
+                && category: <%= product.categoryId.name %> discount <%= product.categoryDiscount %>% )
+                </p>
+              
+              </div>
+      
+              <!-- Stock and Rating -->
+              <div class="stock-rating-info mb-3">
+                <p class="stock-status <%= product.stock > 0 ? 'text-success' : 'text-danger' %>">
+                  <strong>Status:</strong> <%= product.stock > 0 ? 'In Stock' : 'Out of Stock' %>
+                  <strong></strong><%= product.stock > 0 ?  product.stock :''  %>
+                  
+                </p>
+                <div class="rating">
+                  <span class="badge badge-success p-2">Rating: <%= product.rating %>/5</span>
+                </div>
+              </div>
+      
+              <!-- Action Buttons -->
+              <div class="action-buttons mt-4">
+                <% if (product.stock > 0) { %>
+                  <button class="btn btn-primary btn-lg mr-2 shadow-sm">Buy Now</button>
+                   <button class="btn btn-info btn-lg shadow-sm"  onclick="addToCart('<%= product._id %>')">Save to Cart</button>
+                <% } else { %>
+                  <button class="btn btn-secondary btn-lg shadow-sm" disabled>Out of Stock</button>
+                  <button class="btn btn-info btn-lg shadow-sm"  onclick="addToWishList('<%= product._id %>')" >Save to Wishlist</button>
+                <% } %>
+              </div>
+              
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+
+<!--review-->
+
+<div class="container mt-5">
+  <!-- Product Reviews Section -->
+  <h3 class="text-dark font-weight-bold">Customer Reviews</h3>
+  <div class="reviews mt-4">
+    <% if (product.reviews && product.reviews.length > 0) { %>
+      <% product.reviews.forEach((review) => { %>
+        <div class="review-item mb-3">
+          <strong><%= review.user %></strong>
+          <p class="text-muted">Rating: <%= review.rating %>/5</p>
+          <p><%= review.comment %></p>
+          <hr>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+    <% } %>
+  </div>
+
+  
+
+
+
+
+  <div class="container mt-5">
+    <h3 class="text-dark font-weight-bold">Related Products</h3>
+    <div class="row mt-4">
+      <% relatedProduct.forEach((related) => { %>
+        <div class="col-md-3 mb-4">
+          <div class="card h-100">
+            <img src="/uploads/re-image/<%= related.coverImage[0] %>" class="card-img-top" alt="<%= related.name %>">
+            <div class="card-body text-center">
+              <h5 class="card-title"><%= related.name %></h5>
+              <p class="text-success">$<%= related.salePrice %></p>
+              <a href="/productDetails?id:<%= related._id %>" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+  
+
+
+
+      
+</main>
+<script src="js/productDetails.js"></script>
+  
+<%- include("../../views/partials/user/footer") %>
+
+
+

@@ -1,0 +1,49 @@
+<%- include("../../views/partials/admin/header") %>
+<link rel="stylesheet" type="text/css" href="/css/returnmanagement.css">
+<h1>Return Management</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Customer Name</th>
+      <th>Returned Products</th>
+      <th>Reason</th>
+      <th>Total Refund Amount</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% returns.forEach(returnItem => { %>
+      <tr>
+        <td><%= returnItem.orderId._id %></td>
+        <td><%= returnItem.customerId.name %></td>
+        <td>
+          <ul>
+            <% returnItem.returnedProducts.forEach(product => { %>
+              <li><%= product.productId.name %> (Quantity: <%= product.quantity %>, Price: <%= product.price %>)</li>
+            <% }); %>
+          </ul>
+        </td>
+        <td><%= returnItem.reason %></td>
+        <td><%= returnItem.totalRefundAmount %></td>
+        <td><%= returnItem.isReturnStatus %></td>
+        <td>
+          <%if(returnItem.isReturnStatus==="aproved"){%>
+            <p>approved</p>
+            <%}else{%>
+          <button onclick="approveReturn('<%= returnItem._id %>', '<%= returnItem.orderId._id %>','<%= returnItem.customerId._id %>','<%= returnItem.totalRefundAmount %>')">Approve</button>
+<button onclick="rejectReturn('<%= returnItem._id %>', '<%= returnItem.orderId._id %>')">Reject</button>
+<%}%>
+
+
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="/js/returnmanagement.js"></script>
+
+

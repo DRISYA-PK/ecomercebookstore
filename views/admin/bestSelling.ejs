@@ -1,0 +1,88 @@
+<%- include("../../views/partials/admin/header") %>
+
+<link href="/css/bestselling.css" rel="stylesheet" type="text/css" />
+
+
+<body>
+   
+
+    <!-- Combobox for selecting the section -->
+    <label for="selection">Choose what to display:</label>
+    <select id="selection">
+        <option value="products">Top 10 Products</option>
+        <option value="categories">Top 10 Categories</option>
+        <option value="authors">Top 10 Authors</option>
+    </select>
+
+    <!-- Sections -->
+    <section id="products-section" class="section">
+        <h2>Top 10 Best-Selling Products</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Product Name</th>
+                    <th>Quantity Sold</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach((product, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= product.name %></td>
+                        <td><%= product.totalQuantity %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="categories-section" class="section" style="display: none;">
+        <h2>Top 10 Best-Selling Categories</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Category Name</th>
+                    <th>Quantity Sold</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% categories.forEach((category, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= category.categoryName %></td>
+                        <td><%= category.totalQuantity %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="authors-section" class="section" style="display: none;">
+        <h2>Top 10 Best-Selling Authors</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Author Name</th>
+                    <th>Quantity Sold</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% authors.forEach((author, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= author._id %></td>
+                        <td><%= author.totalQuantity %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/bestselling.js"></script>
+    <%- include("../../views/partials/admin/footer") %>
+

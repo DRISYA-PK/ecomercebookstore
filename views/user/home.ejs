@@ -1,0 +1,177 @@
+<%- include("../../views/partials/user/header") %>
+
+
+      <section id="billboard">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<button class="prev slick-arrow">
+					<i class="icon icon-arrow-left"></i>
+				</button>
+
+				<div class="main-slider pattern-overlay">
+					<div class="slider-item">
+						<div class="banner-content">
+							<h2 class="banner-title">Life of the Wild</h2>
+							<p>The Animal World of the Pacific Northwest is a beautifully illustrated book written by
+                                 award-winning naturalist and author Harold A. Dunsmore. The book delves into the diverse
+                                  and fascinating animal life of the Pacific Northwest, focusing on the intricate relationships 
+                                  between the creatures and their habitats..</p>
+							<div class="btn-wrap">
+								<a href="#" class="btn btn-outline-accent btn-accent-arrow">Read More<i
+										class="icon icon-ns-arrow-right"></i></a>
+							</div>
+						</div><!--banner-content-->
+					<img src="images/main-banner1.jpg" alt="banner" class="banner-image">
+					</div><!--slider-item-->
+
+					<div class="slider-item">
+						<div class="banner-content">
+							<h2 class="banner-title">Birds gonna be Happy</h2>
+							<p>Birds Gonna Be Happy is a heartwarming and reflective book by Krishna Bansal that focuses 
+                                on the beauty of nature and our connection with the avian world. Through a series of stories, 
+                                observations, and insights, Bansal explores the lives of birds, shedding light on their
+                                 behaviors, their significance to the ecosystem, and the way they inspire us..</p>
+							<div class="btn-wrap">
+								<a href="#" class="btn btn-outline-accent btn-accent-arrow">Read More<i
+										class="icon icon-ns-arrow-right"></i></a>
+							</div>
+						</div><!--banner-content-->
+					<img src="images/main-banner2.jpg" alt="banner" class="banner-image">
+					</div><!--slider-item-->
+
+				</div><!--slider-->
+
+				<button class="next slick-arrow">
+					<i class="icon icon-arrow-right"></i>
+				</button>
+
+			</div>
+		</div>
+	</div>
+
+</section>   
+
+
+
+<section id="featured-books" class="py-5 my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header align-center">
+                   <h2 class="section-title">New Arrivals </h2>
+                </div>
+
+                <div class="product-list" data-aos="fade-up">
+                    <div class="row" id="product-list">
+                        <% for (let i = 0; i < products.length; i++) { %>
+                            <div class="col-md-2">
+                                <div class="product-item">
+                                 
+                                    <figure class="product-style">
+                                      
+                                        <a href="/productDetails?id=<%=products[i]._id%>">
+                                            <img src="uploads/re-image/<%=products[i].coverImage[0]%>" alt="<%=products[i].name%>" class="product-item">
+                                        </a>
+                                     
+                                        <%if(products[i].stock>0){%>
+                                            <button type="button" class="add-to-cart" onclick="addToCart('<%= products[i]._id %>')">Add to Cart</button>
+                                            <%}else{%> 
+                                              <button type="button" class="add-to-Wishlist" onclick="addToWishList('<%= products[i]._id %>')">Add to WhishList <P>not available</P></button>
+                                              <%}%>
+                                             
+                                    </figure>
+                                    <figcaption>
+                                       
+                                        <img src="uploads/re-image/wishlist.jpg" alt="<%=products[i].name%>" class="product-item" style="width: 15px;height: 15px;;" onclick="addToWishList('<%= products[i]._id %>')">
+                                    
+                                           
+                                        <h3><%= products[i].name %></h3>
+                                        <span><%= products[i].author %></span>
+                                       <!-- <p style="font-size: 12px;">₹<%= products[i].regularPrice %>-->
+                                            <div class="item-price">₹<%= products[i].salePrice %></div>
+                                       
+                                    </figcaption>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div><!--grid-->
+                
+                <!-- View More button -->
+                <div class="row  viewmoreNewProduct">
+                    <div class="col-md-12">
+                        <div class="btn-wrap align-right ">
+                            <a id="view-more-btn" >View More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!--novels
+
+<section id="featured-books" class="py-5 my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header align-center">
+                    
+                    <h2 class="section-title">Novels </h2>
+                </div>
+
+                <div class="product-list" data-aos="fade-up">
+                    <div class="row" id="product-list">
+                        <% for (let i = 0; i < novelData.length; i++) { %>
+                            <div class="col-md-2">
+                                <div class="product-item">
+                                    <figure class="product-style">
+                                        <a href="/productDetails?id=<%=novelData[i]._id%>">
+                                            <img src="uploads/re-image/<%=novelData[i].coverImage[0]%>" alt="<%=novelData[i].name%>" class="product-item">
+                                        </a>
+                                        <%if(novelData[i].stock>0){%>
+                                            <button type="button" class="add-to-cart" onclick="addToCart('<%= novelData[i]._id %>')">Add to Cart</button>
+                                            <%}else{%> 
+                                              <button type="button" class="add-to-Wishlist" onclick="addToWishList('<%= novelData[i]._id %>')">Add to WhishList <P>not available</P></button>
+                                              <%}%>     </figure>
+                                    <figcaption>
+                                        <img src="uploads/re-image/wishlist.jpg" alt="<%=novelData[i].name%>" class="product-item" style="width: 15px;height: 15px;;" onclick="addToWishList('<%= products[i]._id %>')">
+                                    
+                                        <h3><%= novelData[i].name %></h3>
+                                        <span><%= novelData[i].author %></span>
+                                      
+                                            <div class="item-price">₹<%= novelData[i].salePrice %></div>
+                                    </figcaption>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                
+               
+                <div class="row  viewmoreNewProduct">
+                    <div class="col-md-12">
+                        <div class="btn-wrap1 align-right ">
+                            <button id="view-more-btn" class="btn-accent-arrow">View More<i class="icon icon-ns-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+-->
+
+
+<script src="js/home.js"></script>
+
+
+
+	<%- include("../../views/partials/user/footer") %>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input {
+            flex: 1;
+        }
+
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: white;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-delivered { background: #d4edda; color: #155724; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+
+        .view-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .order-details th, 
+        .order-details td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-details th {
+            background: #f8f9fa;
+        }
+
+        .shipping-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+            }
+            .order-header {
+                flex-direction: column;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Order History</h1>
+        
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search orders...">
+            <select id="filterStatus">
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div id="ordersList">
+            <!-- Orders will be populated here -->
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('detailsModal')">&times;</span>
+            <div id="orderDetails" class="order-details">
+                <!-- Order details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cancelModal')">&times;</span>
+            <h2>Cancel Order</h2>
+            <p>Are you sure you want to cancel this order?</p>
+            <div class="button-group" style="margin-top: 20px;">
+                <button onclick="closeModal('cancelModal')">No, Keep Order</button>
+                <button class="cancel-btn" onclick="confirmCancelOrder()">Yes, Cancel Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+          //const orders = <%= JSON.stringify(order) %>;
+        // Sample order data
+        let orders = [
+            {
+                id: "ORD001",
+                date: "2024-12-30",
+                status: "pending",
+                total: 129.99,
+                items: [
+                    { name: "Wireless Headphones", price: 79.99, quantity: 1 },
+                    { name: "Phone Case", price: 49.99, quantity: 1 }
+                ],
+                shipping: {
+                    name: "John Doe",
+                    address: "123 Main St",
+                    city: "New York",
+                    zip: "10001"
+                }
+            },
+            {
+                id: "ORD002",
+                date: "2024-12-29",
+                status: "delivered",
+                total: 199.99,
+                items: [
+                    { name: "Smart Watch", price: 199.99, quantity: 1 }
+                ],
+                shipping: {
+                    name: "Jane Smith",
+                    address: "456 Park Ave",
+                    city: "Los Angeles",
+                    zip: "90001"
+                }
+            }
+        ];
+
+        let selectedOrderId = null;
+
+        // Render orders
+        function renderOrders() {
+            const ordersList = document.getElementById('ordersList');
+            ordersList.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <h3>Order ${order.id}</h3>
+                            <p>Ordered on ${new Date(order.date).toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                            <h3>$${order.total.toFixed(2)}</h3>
+                            <span class="order-status status-${order.status}">${order.status.toUpperCase()}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Items: ${order.items.map(item => item.name).join(', ')}</p>
+                        <div class="button-group">
+                            <button class="view-btn" onclick="showOrderDetails('${order.id}')">View Details</button>
+                            ${order.status === 'pending' ? 
+                                `<button class="cancel-btn" onclick="showCancelModal('${order.id}')">Cancel Order</button>` 
+                                : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show order details
+        function showOrderDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            const details = document.getElementById('orderDetails');
+            details.innerHTML = `
+                <h2>Order Details - ${order.id}</h2>
+                <p>Order Date: ${new Date(order.date).toLocaleDateString()}</p>
+                <p>Status: <span class="order-status status-${order.status}">${order.status.toUpperCase()}</span></p>
+                
+                <h3>Items</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${order.items.map(item => `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.quantity}</td>
+                                <td>$${item.price.toFixed(2)}</td>
+                                <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+
+                <div class="shipping-info">
+                    <h3>Shipping Information</h3>
+                    <p>${order.shipping.name}</p>
+                    <p>${order.shipping.address}</p>
+                    <p>${order.shipping.city}, ${order.shipping.zip}</p>
+                </div>
+
+                <h3>Order Summary</h3>
+                <p>Total: $${order.total.toFixed(2)}</p>
+            `;
+            
+            document.getElementById('detailsModal').style.display = 'block';
+        }
+
+        // Show cancel confirmation
+        function showCancelModal(orderId) {
+            selectedOrderId = orderId;
+            document.getElementById('cancelModal').style.display = 'block';
+        }
+
+        // Confirm order cancellation
+        function confirmCancelOrder() {
+            if (selectedOrderId) {
+                orders = orders.map(order => 
+                    order.id === selectedOrderId 
+                        ? {...order, status: 'cancelled'} 
+                        : order
+                );
+                closeModal('cancelModal');
+                renderOrders();
+            }
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'cancelModal') {
+                selectedOrderId = null;
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filterStatus = document.getElementById('filterStatus').value;
+            
+            const filteredOrders = orders.filter(order => {
+                const matchesSearch = order.id.toLowerCase().includes(searchTerm) ||
+                    order.items.some(item => item.name.toLowerCase().includes(searchTerm));
+                const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
+                return matchesSearch && matchesStatus;
+            });
+            
+            ordersList.innerHTML = filteredOrders.map(/* ... same mapping function ... */).join('');
+        });
+
+        // Filter by status
+        document.getElementById('filterStatus').addEventListener('change', () => {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterStatus = document.getElementById('filterStatus').value;
+            
+            const filteredOrders = orders.filter(order => {
+                const matchesSearch = order.id.toLowerCase().includes(searchTerm) ||
+                    order.items.some(item => item.name.toLowerCase().includes(searchTerm));
+                const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
+                return matchesSearch && matchesStatus;
+            });
+            
+            ordersList.innerHTML = filteredOrders.map(/* ... same mapping function ... */).join('');
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+                if (event.target.id === 'cancelModal') {
+                    selectedOrderId = null;
+                }
+            }
+        }
+
+        // Initial render
+        renderOrders();
+    </script>
+</body>
+</html>

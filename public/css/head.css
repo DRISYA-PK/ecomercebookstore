@@ -1,0 +1,96 @@
+/* Reset */
+body, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header Container */
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Logo */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  /* Navigation */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .nav-links a:hover {
+    color: teal;
+  }
+  
+  /* Actions */
+  .actions {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .cart, .login {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .cart:hover, .login:hover {
+    color: teal;
+  }
+  
+  /* Search Container */
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .search-bar {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+  }
+  
+  .search-button {
+    background-color: teal;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+  }
+  
+  .search-button img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1); /* Makes the icon white */
+  }
+  

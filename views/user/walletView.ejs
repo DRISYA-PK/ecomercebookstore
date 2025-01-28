@@ -1,0 +1,92 @@
+<%- include("../../views/partials/user/header") %>
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
+    <link rel="stylesheet" type="text/css" href="css/wallet.css">
+
+    <body>
+
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>&gt;</span>
+            <span>WishList</span>
+        </div>
+        <div class="container">
+            <div class="sidebar">
+                <%if(data.profilePhoto){%>
+                    <img src="uploads/re-image/<%= data.profilePhoto %>" alt="Profile Photo" id="profilePhoto"
+                        onclick="triggerFileInput()" />
+
+                    <%} else{%>
+                        <img src="" alt="Profile Photo" id="profilePhoto" onclick="triggerFileInput()" />
+                        <%}%>
+
+
+
+
+
+
+                            <!-- Hidden file input -->
+                            <input type="file" id="fileInput" accept="image/*" onchange="changeProfilePhoto()" />
+
+
+
+                            <h2>Hello, <strong>
+                                    <%=data.name%>
+                                </strong></h2>
+                            <ul>
+                                <li><a href="#">MY ORDERS</a></li>
+                                <li><a href="/wishlist" style="color:red">WishList</a></li>
+                                <li><a href="#">ACCOUNT SETTINGS</a>
+                                    <ul>
+                                        <li><a href="/userprofile">Profile Information</a></li>
+                                        <li><a href="/viewadddresdetails">Manage Addresses</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/showhistory">Orders</a>
+                                <li><a href="/getreferalcode">ReferalCode</a>
+                                <li><a href="/wallet">Wallet</a>
+                                </li>
+                            </ul>
+            </div>
+
+
+            <div class="main-content ">
+                <div class="wallet-container">
+                    <h1>My Wallet</h1>
+                    <div class="wallet-balance">
+                        <h2>Balance: ₹<span><%= balance %></span></h2>
+                    </div>
+                    <div class="transactions">
+                        <h3>Recent Transactions</h3>
+                        <ul>
+                            <% transactions.forEach((transaction) => { %>
+                                <li>
+                                    <strong><%= transaction.type %></strong>: ₹<%= transaction.amount %> 
+                                    (<%= transaction.description || "No description" %>) 
+                                    on <%= new Date(transaction.date).toLocaleDateString() %>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+            
+                    <!-- Pagination Controls -->
+                    <div class="pagination">
+                        <% if (currentPage > 1) { %>
+                            <a href="/wallet?page=<%= currentPage - 1 %>&limit=5">Previous</a>
+                        <% } %>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <a href="/wallet?page=<%= i %>&limit=5" 
+                               class="<%= currentPage === i ? 'active' : '' %>">
+                               <%= i %>
+                            </a>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                            <a href="/wallet?page=<%= currentPage + 1 %>&limit=5">Next</a>
+                        <% } %>
+                    </div>
+                    </div>
+
+            </div>
+            </div>
+
+            <script src="js/wishlist.js"></script>
+            <%- include("../../views/partials/user/footer") %>

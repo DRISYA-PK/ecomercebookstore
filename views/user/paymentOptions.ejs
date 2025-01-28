@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Options</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .payment-container {
+      width: 400px;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .payment-header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+    .payment-option input {
+      margin-right: 10px;
+    }
+    .payment-description {
+      font-size: 14px;
+      color: #666;
+      margin-left: 25px;
+    }
+    .add-gift-card {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #007bff;
+      cursor: pointer;
+    }
+    .add-gift-card:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <div class="payment-header">Complete Payment</div>
+    <div class="payment-option">
+      <input type="radio" id="gpay" name="payment" />
+      <label for="gpay">UPI</label>
+      <p class="payment-description">Pay by any UPI app</p>
+    </div>
+    <div class="payment-option">
+      <input type="radio" id="wallets" name="payment" />
+      <label for="wallets">Wallets</label>
+      <p class="payment-description">PhonePe Wallet (Coming soon)</p>
+    </div>
+    <div class="payment-option">
+      <input type="radio" id="credit-card" name="payment" />
+      <label for="credit-card">Credit / Debit / ATM Card</label>
+      <p class="payment-description">Add and secure cards as per RBI guidelines</p>
+    </div>
+    <div class="payment-option">
+      <input type="radio" id="net-banking" name="payment" />
+      <label for="net-banking">Net Banking</label>
+      <p class="payment-description">This instrument has low success, use UPI or cards for better experience</p>
+    </div>
+    <div class="payment-option">
+      <input type="radio" id="cod" name="payment" />
+      <label for="cod">Cash on Delivery</label>
+    </div>
+    <div class="payment-option">
+      <input type="radio" id="emi" name="payment" />
+      <label for="emi">EMI (Easy Installments)</label>
+    </div>
+    <div class="add-gift-card">+ Add Gift Card</div>
+  </div>
+</body>
+</html>

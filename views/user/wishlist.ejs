@@ -1,0 +1,95 @@
+<%- include("../../views/partials/user/header") %>
+<link rel="stylesheet" type="text/css" href="css/profile.css">
+<link rel="stylesheet" type="text/css" href="css/wishlist.css">
+
+    <body>
+       
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>&gt;</span>
+            <span>WishList</span>
+        </div>
+        <div class="container">
+            <div class="sidebar">
+                <%if(data.profilePhoto){%>
+                    <img src="uploads/re-image/<%= data.profilePhoto %>" alt="Profile Photo" id="profilePhoto"
+                        onclick="triggerFileInput()" />
+
+                    <%} else{%>
+                        <img src="" alt="Profile Photo" id="profilePhoto" onclick="triggerFileInput()" />
+                        <%}%>
+
+
+
+
+
+
+                            <!-- Hidden file input -->
+                            <input type="file" id="fileInput" accept="image/*" onchange="changeProfilePhoto()" />
+
+
+
+                            <h2>Hello, <strong>
+                                    <%=data.name%>
+                                </strong></h2>
+                            <ul>
+                                <li><a href="#">MY ORDERS</a></li>
+                                <li><a href="/wishlist" style="color:red">WishList</a></li>
+                                <li><a href="#">ACCOUNT SETTINGS</a>
+                                    <ul>
+                                        <li><a href="/userprofile">Profile Information</a></li>
+                                        <li><a href="/viewadddresdetails" >Manage Addresses</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/showhistory">Orders</a>
+                                    <li><a href="/getreferalcode">ReferalCode</a>
+                                        <li><a href="/wallet">Wallet</a>
+                                </li>
+                            </ul>
+            </div>
+
+
+
+
+
+
+            <div class="main-content ">
+                
+               
+
+               <%if(product){%>
+                    <h2>My Wishlist (<%=product.length%>)</h2>
+                    <%for(let i=0;i<product.length;i++){%>
+                    <div class="wishlist-item" id="div-<%=product[i].productId%>">
+                        <a href="/productDetails?id=<%=product[i].productId%>">
+                      <img src="uploads/re-image/<%=product[i].productImage%>" alt="Product Image" class="product-image">
+                      </a>
+                      <div class="product-details">
+                        <h3><%=product[i].productName%></h3>
+                        <p><span class="rating">rating:<%=product[i].rating%></span>*
+                            <%if(product[i].stock<1){%> <span class="assured">Not Available</span></p><%}else{%>
+                                <span class="available"> Stock Available</span></p><%}%>
+                            
+                        <p class="price">₹<%=product[i].salePrice%> <span class="original-price">₹<%=product[i].regularPrice%></span> 
+                            <span class="discount"><%=product[i].discount%>%off</span></p>
+                      </div>
+                      <button class="delete-btn" onclick="removeItem('<%=product[i].productId%>')">🗑️</button>
+                    </div>
+                    <%}%>
+                 
+                    </div>
+                    <%}else{%>
+                        <p>No Item In WishList</p>
+                        <%}%>
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+        <script src="js/wishlist.js"></script>
+              <%- include("../../views/partials/user/footer") %>

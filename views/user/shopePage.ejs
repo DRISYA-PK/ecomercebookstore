@@ -1,0 +1,169 @@
+<%- include("../../views/partials/user/header") %>
+<link rel="stylesheet" type="text/css" href="css/shop.css">
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid" >
+ 
+  <div class="row">
+  
+    <!-- Sidebar for Filters -->
+    <aside class="col-md-3">
+      <div class="filter-section">
+        
+          <input class="search-field text search-input" name="name" placeholder="Search Books here" id="books-search"
+            type="search">
+            
+        
+        <h3>Search here</h3>
+        <form id="filter-form" >
+          <!-- Category Filter -->
+          <div class="filter-item">
+            <label for="category">Category:</label>
+            <select name="category" id="category" class="form-control">
+              <option value="all">All Categories</option>
+              <% for (let i = 0; i < category.length; i++) { %>
+                <option value="<%= category[i]._id %>"><%= category[i].name %></option>
+              <% } %>
+            </select>
+          </div>
+        
+          <!-- Language Filter -->
+          <div class="filter-item">
+            <label for="language">Language:</label>
+            <select name="language" id="language" class="form-control">
+              <option value="all">All</option>
+              <option value="Malayalam">Malayalam</option>
+              <option value="English">English</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Tamil">Tamil</option>
+              <option value="Telungu">Telungu</option>
+            </select>
+          </div>
+        
+          <!-- Sort By Filter -->
+          <div class="filter-item">
+            <label for="sort">Sort By:</label>
+            <select name="sort" id="sort" class="form-control">
+              <option value="all">all</option>
+              <option value="priceLowHigh">Price: Low to High</option>
+              <option value="priceHighLow">Price: High to Low</option>
+              <option value="ratings">Average Ratings</option>
+              <option value="newArrivals">New Arrivals</option>
+              <option value="aToZ">A-Z</option>
+              <option value="zToA">Z-A</option>
+            </select>
+          </div>
+        
+          <!-- Rating Filter -->
+          <div class="filter-item">
+            <label for="rating">Rate By:</label>
+            <select name="rating" id="rating" class="form-control">
+              <option value="all">All</option>
+              <option value="1">Rating: 1 & Above</option>
+              <option value="2">Rating: 2 & Above</option>
+              <option value="3">Rating: 3 & Above</option>
+              <option value="4">Rating: 4 & Above</option>
+            </select>
+          </div>
+        
+          <div class="filter-item">
+            <button type="button" class="btn btn-primary mt-3" onclick="filterItem();">Search</button>
+          </div>
+        </form>
+        
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="col-md-9">
+
+
+      <!-- Featured Books Section -->
+      <section id="featured-books" class="py-5 my-5">
+     
+        <div class="product-list" id="product-list">
+          <div class="row"  id="remove">
+           
+       
+           
+            <% for (let i = 0; i < products.length; i++) { %>
+              <div class="col-md-2" id="">
+                <div class="product-item">
+                  <figure class="product-style">
+                    <a href="/productDetails?id=<%= products[i]._id %>">
+                      <img src="uploads/re-image/<%= products[i].coverImage[0] %>" alt="<%= products[i].name %>" class="product-item">
+                    </a>
+                    <%if(products[i].stock>0){%>
+                      <button type="button" class="add-to-cart" onclick="addToCart('<%= products[i]._id %>')">Add to Cart</button>
+                      <%}else{%> 
+                        <button type="button" class="add-to-Wishlist" onclick="addToWishList('<%= products[i]._id %>')">Add to WhishList <P>not available</P></button>
+                        <%}%>
+                  </figure>
+                  <figcaption>
+                   
+                    <%if(products[i].isInWishlist){%>
+                      <img src="uploads/re-image/wishlistfull.jpg" alt="<%=products[i].name%>" class="product-item" style="width: 15px;height: 15px;;" onclick="addToWishList('<%= products[i]._id %>')">
+                  
+                      <%}else{%>
+                    <img src="uploads/re-image/wishlist.jpg" alt="<%=products[i].name%>" class="product-item" style="width: 15px;height: 15px;;" onclick="addToWishList('<%= products[i]._id %>')">
+                        <%}%>            
+                                           
+                    <h3><%= products[i].name %></h3>
+                    <span><%= products[i].author %></span>
+                   <!-- <p style="font-size: 12px;">₹<%= products[i].regularPrice %>-->
+                        <div class="item-price">₹<%= products[i].salePrice %></div>
+                  </figcaption>
+                </div>
+              </div>
+            <% } %>
+         
+          </div>
+        </div>
+      </section>
+      
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="container mt-3">
+      <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center mb-20" style="margin-right: 200px;">
+   
+   
+            <ul class="pagination">
+              <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= (i == currentPage) ? 'active' : '' %>">
+                  <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+              <% } %>
+            </ul>
+            
+   
+   
+          </ul>
+      </nav>
+   </div>
+   
+   
+</div>
+
+
+
+
+
+<script src="js/shope.js"></script>
+
+<script src="js/home.js"></script>
+
+
+
+<%- include("../../views/partials/user/footer") %>

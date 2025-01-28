@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - BStore</title>
+  <!-- <link rel="stylesheet" href="styles.css">-->
+</head>
+<body>
+    <style>
+        body {
+            background-image: url("images/library.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .signup-container {
+            padding-top: 80px;
+            padding-left: 30%;  
+        }
+        .signup-form {
+            width: 350px;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .signup-form h2 {
+            text-align: center;
+            color: #333;
+        }
+        .signup-form label, .error-message {
+            display: block;
+            font-size: 13px;
+            color: #333;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+        .signup-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .signup-btn{
+            width: 100%;
+            padding: 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .google-signup-btn {
+            width: 100%;
+            padding: 5px;
+            background-color: #db4437;;
+            color: #fff;
+            border: none;
+            margin-left: 75px;
+            border-radius: 15px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .extra-options{
+
+            padding: 8px;;
+        }
+    </style>
+
+    <div class="signup-container">
+      
+        <div class="signup-form">
+            <div class="body">
+                <% if (message) { %>
+                    <p style="color: red;"><%= message %></p>
+                <% } %>
+            <h2>Create an Account</h2>
+            <form action="/signUp" method="POST" id="signform">
+                <!-- Full Name -->
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                <div id="errorname" class="error-message"></div>
+                
+                <!-- Email -->
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <div id="erroremail" class="error-message"></div>
+                
+                <!-- Phone Number -->
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                <div id="errorphone" class="error-message"></div>
+                
+                <!-- Password -->
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+                <div id="errorpassword" class="error-message"></div>
+                
+                <!-- Confirm Password -->
+                <label for="cpassword">Confirm Password</label>
+                <input type="password" id="cpassword" name="cpassword" placeholder="Confirm your password" required>
+                <div id="errorcpassword" class="error-message"></div>
+
+
+
+ <!-- Referal Code -->
+ <label for="Referalcode">Referal Code</label>
+ <input type="text" id="Referalcode" name="Referalcode" placeholder="Referal Code" >
+ <div id="errorReferalcode" class="error-message"></div>
+
+                
+                <!-- Sign Up Button -->
+                <button type="submit" class="signup-btn">Sign Up</button>
+            </form>
+            
+            <!-- Forgot Password and Google Sign Up -->
+            <div class="extra-options">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                <a href="/auth/google" class="google-signup-btn">Sign Up with Google</a>
+            </div>
+            
+            <!-- Already Registered -->
+            <div class="already-registered">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       /* document.getElementById('signform').addEventListener('submit', function(e) {
+            // Prevent default submission
+            e.preventDefault();
+            
+            // Clear previous error messages
+            document.querySelectorAll('.error-message').forEach(msg => msg.innerText = '');
+            
+            let isValid = true;
+
+            // Full Name validation
+            const name = document.getElementById('name').value.trim();
+            if (name.length < 3) {
+                document.getElementById('errorname').innerText = 'Full name must be at least 3 characters.';
+                isValid = false;
+            }
+
+
+
+
+
+
+
+
+
+
+            // Email validation
+            const email = document.getElementById('email').value.trim();
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('erroremail').innerText = 'Please enter a valid email.';
+                isValid = false;
+            }
+
+            // Phone Number validation
+            const phone = document.getElementById('phone').value.trim();
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                document.getElementById('errorphone').innerText = 'Phone number must be 10 digits.';
+                isValid = false;
+            }
+
+            // Password validation
+            const password = document.getElementById('password').value.trim();
+            if (password.length < 6) {
+                document.getElementById('errorpassword').innerText = 'Password must be at least 6 characters.';
+                isValid = false;
+            }
+
+            // Confirm Password validation
+            const confirmPassword = document.getElementById('cpassword').value.trim();
+            if (confirmPassword !== password) {
+                document.getElementById('errorcpassword').innerText = 'Passwords do not match.';
+                isValid = false;
+            }
+
+            // If all validations pass, allow form submission
+            if (isValid) {
+              //  alert('Form submitted successfully!');
+                this.submit();
+            }
+        });*/
+        document.getElementById("submitform").addEventListener("submit", function (e) {
+            let isValid = true;
+
+            // Name Validation
+            const name = document.getElementById("name").value.trim();
+            const errorname = document.getElementById("errorname");
+            if (!/^[A-Za-z][A-Za-z\s]{2,}$/.test(name)) {
+                errorname.textContent = "Name must start with a letter and have at least 3 characters.";
+                isValid = false;
+            } else {
+                errorname.textContent = "";
+            }
+
+            // Email Validation
+            const email = document.getElementById("email").value.trim();
+            const erroremail = document.getElementById("erroremail");
+            if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                erroremail.textContent = "Please enter a valid email address.";
+                isValid = false;
+            } else {
+                erroremail.textContent = "";
+            }
+
+            // Phone Number Validation
+            const phone = document.getElementById("phone").value.trim();
+            const errorphone = document.getElementById("errorphone");
+            if (!/^\d{10}$/.test(phone)) {
+                errorphone.textContent = "Phone number must be exactly 10 digits.";
+                isValid = false;
+            } else {
+                errorphone.textContent = "";
+            }
+
+            // Password Validation
+            const password = document.getElementById("password").value.trim();
+            const errorpassword = document.getElementById("errorpassword");
+            if (!/(?=.*\d{2})(?=.*[A-Za-z]{8,}).{10,}$/.test(password)) {
+                errorpassword.textContent = "Password must be at least 10 characters, with 8 letters and 2 numbers.";
+                isValid = false;
+            } else {
+                errorpassword.textContent = "";
+            }
+
+            // Confirm Password Validation
+            const cpassword = document.getElementById("cpassword").value.trim();
+            const errorcpassword = document.getElementById("errorcpassword");
+            if (cpassword !== password) {
+                errorcpassword.textContent = "Passwords do not match.";
+                isValid = false;
+            } else {
+                errorcpassword.textContent = "";
+            }
+
+            // If not valid, prevent form submission
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+
+
+    </script>
+    </div>
+</body>
+</html>

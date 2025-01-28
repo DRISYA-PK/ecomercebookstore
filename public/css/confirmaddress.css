@@ -1,0 +1,270 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+}
+.container1 {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 5px solid #ff5722;
+}
+.content {
+    width: 60%;
+}
+.price-section {
+    width: 35%;
+    margin-left: 20px;
+}
+.section {
+    margin-bottom: 30px;
+}
+.section h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+.address {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+}
+.address input {
+    margin-right: 10px;
+}
+.address:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+.address button {
+    background-color: #ff5722;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.address button:hover {
+    background-color: #e64a19;
+}
+.price-details {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.price-details div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.total {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+}
+.button {
+    text-align: center;
+    margin-top: 30px;
+}
+.button button {
+    background-color: #ff5722;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+.button button:hover {
+    background-color: #e64a19;
+}
+
+/* Hide the address form initially */
+#addressForm {
+    display: none;
+    margin-top: 20px;
+}
+#addressForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+#addressForm button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#addressForm button:hover {
+    background-color: #45a049;
+}
+
+
+.form-container {
+    display: none;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group {
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.form-group label {
+
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1px;
+}
+
+.form-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.payment-container {
+    width: 400px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .payment-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .payment-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+  .payment-option input {
+    margin-right: 10px;
+  }
+  .payment-description {
+    font-size: 14px;
+    color: #666;
+    margin-left: 25px;
+  }
+  .add-gift-card {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+  }
+  .add-gift-card:hover {
+    text-decoration: underline;
+  }
+  .save-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}
+sale-price
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+
+.coupon-container {
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  select {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+  }
+  .apply-button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .apply-button:hover {
+    background-color: #218838;
+  }
+  .output {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+
+
+
+
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .content, .price-section {
+        width: 100%;
+        margin: 0;
+    }
+}

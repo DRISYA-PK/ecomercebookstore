@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/adminlogin.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2 class="text-center">Admin Login</h2>
+   
+    <form id="adminLoginForm" method="post" action="/admin/adminlogin">
+      <div class="form-group">
+        <label for="adminEmail">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="adminEmail"
+          name="email"
+          required
+        />
+        <div id="emailError" class="error-message"></div>
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="adminPassword"
+          name="password"
+          required
+        />
+        <div id="passwordError" class="error-message"></div>
+      </div>
+      <% if(locals.message&& message.length>0){%>
+         
+        <div class="alert alert-danger text-center text-danger">
+         <%=message%>
+        </div>
+         <%   } %>
+
+      <button type="submit" class="btn btn-primary btn-block">Log In</button>
+    </form>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/adminLogin.js"></script>
+</body>
+</html>

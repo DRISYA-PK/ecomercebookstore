@@ -1,0 +1,81 @@
+<%- include("../../views/partials/admin/header") %>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-60">
+            <form id="editCategoryForm" method="post" action="/admin/editCategory/<%= category._id %>">
+                <div class="d-grid text-end mt-30 col-md-5">
+                    <button class="btn btn-primary" type="submit">Update category</button>
+                </div>
+
+                <!-- Category Name Field -->
+                <div class="mb-4 mt-30">
+                    <label for="product_name" class="form-label">Name</label>
+                    <input type="text" name="categoryName" value="<%= category.name %>" class="form-control border" id="categoryName" />
+                    <small id="name-error" class="text-danger"></small> <!-- Error message for Name -->
+                </div>
+                
+                <!-- Description Field -->
+                <div class="mb-4">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control border" id="description"><%= category.description %></textarea>
+                    <small id="description-error" class="text-danger"></small> <!-- Error message for Description -->
+                </div>
+                <div class="mb-4">
+                    <label for="product_discount" class="form-label">discount per</label>
+                    <input type="number" name="categoryOffer" placeholder="Type here" class="form-control"
+                        id="categoryOffer"  min="0" value="<%= category.categoryOffer %>"  />
+                    <div id="discount-error" class="error-message"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form validation function
+    document.getElementById('editCategoryForm').onsubmit = function(e) {
+        // Clear any previous error messages
+        clearErrorMessages();
+
+        // Get the values of name and description
+        const name = document.getElementById('categoryName').value.trim();
+        const description = document.getElementById('description').value.trim();
+        let isValid = true;
+
+        // Validate category name
+        if (name === "") {
+            displayErrorMessage("name-error", "Please enter a name.");
+            isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            displayErrorMessage("name-error", "Category name should contain only alphabets and spaces.");
+            isValid = false;
+        } else if (name[0] !== name[0].toUpperCase()) {
+            displayErrorMessage("name-error", "Category name should start with a capital letter.");
+            isValid = false;
+        }
+
+        // Validate description
+        if (description === "") {
+            displayErrorMessage("description-error", "Description cannot be empty.");
+            isValid = false;
+        }
+
+        // If the form is not valid, prevent submission
+        if (!isValid) {
+            e.preventDefault();
+        }
+    }
+
+    // Clear any previous error messages
+    function clearErrorMessages() {
+        document.getElementById('name-error').textContent = "";
+        document.getElementById('description-error').textContent = "";
+    }
+
+    // Display error messages
+    function displayErrorMessage(elementId, message) {
+        document.getElementById(elementId).textContent = message;
+    }
+</script>
+
+<%- include("../../views/partials/admin/footer") %>

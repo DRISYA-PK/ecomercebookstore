@@ -1,0 +1,103 @@
+
+<%- include("../../views/partials/admin/header") %>
+
+<link href="/css/orderupdate.css" rel="stylesheet" type="text/css" />
+
+
+<body>
+    <div class="order-container">
+        <div class="order-header">
+            <h1>Order Management</h1>
+        </div>
+
+        <div class="order-list">
+            <!-- Order card template - This will be repeated for each order -->
+            <div class="order-list" style="background-color: #f8d7da;">
+                <% if (order) { for (let i = 0; i < order.length; i++) { %>
+                <div class="order-card">
+                    <div class="order-info">
+                        <div>
+                            <strong>Order ID:</strong>
+                            <span id="orderId"><%= order[i]._id %></span>
+                        </div>
+                        <div>
+                            <strong>Customer:</strong>
+                            <span id="customerName"><%= order[i].userId.name %></span>
+                        </div>
+                        <div>
+                            <strong>Date:</strong>
+                            <span id="orderDate"><%= new Date(order[i].createdAt).toLocaleDateString() %></span>
+
+                        </div>
+                  
+                        <div>
+                            <strong>Total:</strong>
+                            <span id="orderTotal"><%= order[i].totalPrice %></span>
+                            <div>
+                                <strong>discount:</strong>
+                                <span id="orderTotal"><%= order[i].discount %></span>
+                            </div>
+                            <div>
+                                <strong>coupon discount:</strong>
+                                <span id="orderTotal"><%= order[i].coupondiscount %></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>Final Amount:</strong>
+                            <span id="orderTotal"><strong><%= order[i].FinalPrice %></strong></span>
+                           
+                        </div>
+                    </div>
+            
+                    <div class="order-details">
+                        <% order[i].items.forEach(item => { %>
+                        <div class="product-list">
+                            <div class="product-item">
+                                <img src="/uploads/re-image/<%= item.product.coverImage[0] %>" alt="<%= item.product.name %>" class="product-image">
+                                <div>
+                                    <h3 id="productName"><%= item.product.name %></h3>
+                                    <p id="productDescription"><!-- Server rendered --></p>
+                                </div>
+                                <div>Quantity: <span id="quantity"><%= item.quantity %></span></div>
+                                <div>Price: <span id="price">₹<%= item.price %></span></div>
+                            </div>
+                        </div>
+                        <% }) %>
+                    </div>
+            
+                    <div class="status-section">
+                        <div class="current-status">
+                            <%if(order[i].isReturn){%>
+                                <span class="status-badge" id="statusBadge">Return :<strong><%=order[i].isReturnStatus%></strong></span>
+                                <%}else{%>
+                            <span class="status-badge" id="statusBadge">status :<strong><%=order[i].statuss%></strong></span>
+                            <%}%>
+                        </div>
+                        <%if(order[i].statuss != 'delivered' && order[i].statuss != 'cancelled' ){%>
+                        <div class="status-update">
+                            <select class="status-select" id="statusSelect">
+                                <option value="pending" <%= order[i].statuss === 'pending' ? 'selected' : '' %>>Pending</option>
+                                <option value="processing" <%= order[i].statuss === 'processing' ? 'selected' : '' %>>Processing</option>
+                                <option value="shipped" <%= order[i].statuss === 'shipped' ? 'selected' : '' %>>Shipped</option>
+                                <option value="delivered" <%= order[i].statuss === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                                <option value="cancelled" <%= order[i].statuss === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                            </select>
+                            </select>
+                            <button class="btn btn-update" onclick="updateStatus(this)">Update Status</button>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+                <% } } %>
+            </div>
+            
+           
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/orderUpdate.js"></script>
+</body>
+</html>

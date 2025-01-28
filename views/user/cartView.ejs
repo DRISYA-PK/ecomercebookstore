@@ -1,0 +1,87 @@
+<%- include("../../views/partials/user/header") %>
+<link rel="stylesheet" type="text/css" href="css/cartview.css">
+<div class="cart-container">
+    <div class="cart-items">
+        <h5>Your Cart Items</h5>
+       
+<%if(cart){%>
+
+    
+
+   
+    <%for(let i=0 ;i<cart.length;i++) {%>
+      
+            <div class="cart-item" id="div-<%=cart[i].productId%>" data-product-id="">
+
+            <img src="/uploads/re-image/<%=cart[i].productImage%>" alt="Product Image">
+            <div class="cart-item-details">
+                <p class="item-name"><%=cart[i].productName%></p>
+                <p  class="item-id" style="display:none;"><%=cart[i].productId%></p>
+                <span>Author:</span><%=cart[i].author%><br>
+                <span>Language:</span><%=cart[i].language%><br>
+                ₹<span class="regular-price" style="text-decoration: line-through;"><%=cart[i].regularPrice%></span>
+                
+                <%if(cart[i].discount>0){%>
+                (<span class="discount"><%=cart[i].discount%>%off</span>)
+                <%}%>
+                ₹<span class="sale-price"><%=cart[i].salePrice%></span>
+                <%if(cart[i].stock<=0){%>
+                    <p class="stock">Out Of Stock </p>
+                    <button onclick="addToWishList('<%=cart[i].productId%>')">addToWishList</button>
+                    <div class="quantity">
+                    <span id="<%=cart[i].productId%>" style="visibility:hidden">0</span>
+                </div>
+                    <%} else {%>
+                   
+                <div class="quantity">
+                    <button id="decrese-qty" onclick="changeQty('dele','<%=cart[i].productId%>')"> - </button>
+                    <span id="<%=cart[i].productId%>"><%=cart[i].qty%></span>
+                    <button id="increase-btn" onclick="changeQty('add','<%=cart[i].productId%>')"> + </button>
+                </div>
+                    <%}%>
+                    <button class="remove" id="remove" onclick="removeItem('<%=cart[i].productId%>')">REMOVE</button>
+              
+            </div>
+            </div>
+        <%}%>
+    <%}%>
+
+        <!-- Add more items here -->
+    </div>
+
+    <div class="price-details">
+        <form action="/confirmaddress" method="post" id="submitform">
+     
+        <h5>PRICE DETAILS</h5>
+        <%if(cart){%>
+        <p>Price (<%= cart.length %> items): <span  class="total-price">0</span></p>
+        <%}%>
+        <p>Discount:<span class="total-discount">0</span></p>
+        <p>Delivery Charges:<span class="delivery-charge">0</span></p>
+        <hr>
+        <p>Total Amount: <span class="total-amount">0</span></p>
+        <p>You will save ₹<span class="total-savings">0</span> on this order</p>
+
+     <!-- Hidden inputs to send span/p content -->
+  <input type="hidden" id="hiddenPrice" name="totalPrice">
+  <input type="hidden" id="hiddenDiscount" name="totalDiscount">
+  <input type="hidden" id="hiddenDeliveryCharge" name="deliveryCharge">
+  <input type="hidden" id="hiddenTotalAmount" name="TotalAmount">
+
+        <button  type="submit" class="place-order" >PLACE ORDER</button>
+    </form>
+    </div>
+        
+    
+        
+  
+
+
+
+  
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="js/cartview.js"></script>
+
+<%- include("../../views/partials/user/footer") %>

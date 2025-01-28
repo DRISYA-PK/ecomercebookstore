@@ -1,0 +1,139 @@
+<%- include("../../views/partials/admin/header") %>
+
+<link href="/css/dashboard.css" rel="stylesheet" type="text/css" />
+
+
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <div class="filter-section">
+                <select id="yearFilter">
+                    <% const currentYear = new Date().getFullYear(); %>
+                    <% for(let year = currentYear; year >= currentYear - 2; year--) { %>
+                        <option value="<%= year %>"><%= year %></option>
+                    <% } %>
+                </select>
+                <select id="timeFilter">
+                    <option value="yearly">Yearly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="daily">Daily</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <div class="value" id="totalOrders"><%= totalOrders %></div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Revenue</h3>
+                <div class="value" id="totalRevenue">$<%= totalRevenue.toFixed(2) %></div>
+            </div>
+            <div class="stat-card">
+                <h3>Average Order Value</h3>
+                <div class="value" id="avgOrderValue">$<%= avgOrderValue.toFixed(2) %></div>
+            </div>
+            <div class="stat-card">
+                <h3>Return Rate</h3>
+                <div class="value" id="returnRate"><%= returnRate.toFixed(1) %>%</div>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Revenue Trend</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Payment Methods</h3>
+                <canvas id="paymentChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Initialize with data from server
+        const initialData =<%-  JSON.stringify(chartData) %>;
+
+        function initCharts() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: initialData.revenueTrend.labels,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: initialData.revenueTrend.data,
+                        borderColor: '#4c51bf',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Payment Methods Chart
+            const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+            const paymentChart = new Chart(paymentCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['COD', 'Online', 'Wallet'],
+                    datasets: [{
+                        label: 'Payment Methods',
+                        data: initialData.paymentMethods,
+                        backgroundColor: [
+                            '#4c51bf',
+                            '#48bb78',
+                            '#ecc94b'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            return { revenueChart, paymentChart };
+        }
+
+        const charts = initCharts();
+
+        // Handle filter changes
+        async function updateDashboard() {
+            const timeFilter = document.getElementById('timeFilter').value;
+            const yearFilter = document.getElementById('yearFilter').value;
+
+            try {
+                const response = await fetch(`/admin/api/dashboard-data?timeFilter=${timeFilter}&year=${yearFilter}`);
+                const data = await response.json();
+
+                // Update stats
+                document.getElementById('totalOrders').textContent = data.totalOrders;
+                document.getElementById('totalRevenue').textContent = `$${data.totalRevenue.toFixed(2)}`;
+                document.getElementById('avgOrderValue').textContent = `$${data.avgOrderValue.toFixed(2)}`;
+                document.getElementById('returnRate').textContent = `${data.returnRate.toFixed(1)}%`;
+
+                // Update charts
+                charts.revenueChart.data.labels = data.revenueTrend.labels;
+                charts.revenueChart.data.datasets[0].data = data.revenueTrend.data;
+                charts.revenueChart.update();
+
+                charts.paymentChart.data.datasets[0].data = data.paymentMethods;
+                charts.paymentChart.update();
+
+            } catch (error) {
+                console.error('Error updating dashboard:', error);
+            }
+        }
+
+        document.getElementById('timeFilter').addEventListener('change', updateDashboard);
+        document.getElementById('yearFilter').addEventListener('change', updateDashboard);
+    </script>
+</body>
+</html>
