@@ -73,7 +73,7 @@ const loadHomepage = async (req, res) => {
 
 const loadSignUppage = async (req, res) => {
     try {
-        return res.render("signup", { message: null });
+        return res.render("signUp", { message: null });
     } catch (error) {
         console.log("Home page not found");
         res.status(500).send("server error");
@@ -406,7 +406,7 @@ const forgotPasswordView = async (req, res) => {
     try {
 
 
-        res.render("forgotpassword");
+        res.render("forgotPassword");
 
     } catch (error) {
 

@@ -6,10 +6,14 @@ const User = require("../models/userSchema")
 const env = require("dotenv").config();
 
 
+const callbackURL = "https://bstore.site/auth/google/callback" // Change port if needed
+
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.Google_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback'
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Corrected
+    
+    callbackURL: callbackURL
 },
 
     async (accessToken, refreshToken, profile, done) => {
